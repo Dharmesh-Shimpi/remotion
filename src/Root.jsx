@@ -1,37 +1,38 @@
+import React, {useEffect, useState} from 'react';
 import {Composition} from 'remotion';
-import {HelloWorld} from './HelloWorld';
-import {Logo} from './HelloWorld/Logo';
-
-// Each <Composition> is an entry in the sidebar!
+import {Videos} from './Video'; // Adjust the path as needed
+import {fetchVideos} from './db/fetchVideos'; // Adjust the path as needed
 
 export const RemotionRoot = () => {
+	const [videos, setVideos] = useState([]);
+	let introUrl = null;
+	let outroUrl = null;
+
+	useEffect(() => {
+		const loadVideos = async () => {
+			const videoData = await fetchVideos();
+			setVideos(videoData);
+			introUrl = videoData[0].url;
+			outroUrl = videoData[videoData.length - 1].url;
+		};
+		loadVideos();
+	}, []);
+
 	return (
 		<>
-			<Composition
-				// You can take the "id" to render a video:
-				// npx remotion render src/index.jsx <id> out/video.mp4
-				id="HelloWorld"
-				component={HelloWorld}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-				// You can override these props for each render:
-				// https://www.remotion.dev/docs/parametrized-rendering
-				defaultProps={{
-					titleText: 'Welcome to Remotion',
-					titleColor: 'black',
-				}}
-			/>
-			{/* Mount any React component to make it show up in the sidebar and work on it individually! */}
-			<Composition
-				id="OnlyLogo"
-				component={Logo}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-			/>
+			{videos.map((video) => (
+				<Composition
+					key={video.id}
+					id={`Video-${video.id}`}
+					component={() => (
+						<Videos url={video.url} introUrl={introUrl} outroUrl={outroUrl} />
+					)}
+					durationInFrames={150 + (introUrl ? 30 : 0) + (outroUrl ? 30 : 0)}
+					fps={30}
+					width={1920}
+					height={1080}
+				/>
+			))}
 		</>
 	);
 };
