@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Composition} from 'remotion';
-import {Videos} from './Video'; // Adjust the path as needed
-import {fetchVideos} from './db/fetchVideos'; // Adjust the path as needed
+import {Videos} from './Video';
+import {fetchVideos} from './db/fetchVideos'; 
 
 export const RemotionRoot = () => {
 	const [videos, setVideos] = useState([]);
