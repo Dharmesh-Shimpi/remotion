@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Sequence, Video as RemotionVideo} from 'remotion';
 
 export const Videos = ({url, introUrl, outroUrl}) => {
-	const introDuration = 30; 
+	const introDuration = 30;
 	const outroDuration = 30;
 	const mainVideoStart = introUrl ? introDuration : 0;
 	const mainVideoEnd = mainVideoStart + 150;

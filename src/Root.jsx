@@ -1,25 +1,61 @@
 import React, {useEffect, useState} from 'react';
 import {Composition} from 'remotion';
 import {Videos} from './Video';
-import {fetchVideos} from './db/fetchVideos'; 
+import {fetchVideos} from './db/fetchVideos';
 
 export const RemotionRoot = () => {
 	const [videos, setVideos] = useState([]);
-	let introUrl = null;
-	let outroUrl = null;
+	const [introId, setIntroId] = useState(null);
+	const [outroId, setOutroId] = useState(null);
 
 	useEffect(() => {
 		const loadVideos = async () => {
 			const videoData = await fetchVideos();
 			setVideos(videoData);
-			introUrl = videoData[0].url;
-			outroUrl = videoData[videoData.length - 1].url;
 		};
 		loadVideos();
 	}, []);
 
+	const handleIntroChange = (event) => {
+		setIntroId(event.target.value);
+	};
+
+	const handleOutroChange = (event) => {
+		setOutroId(event.target.value);
+	};
+
+	const getVideoUrlById = (id) => {
+		const video = videos.find((video) => video.id === id);
+		return video ? video.url : null;
+	};
+
+	const introUrl = getVideoUrlById(introId);
+	const outroUrl = getVideoUrlById(outroId);
+
 	return (
-		<>
+		<div>
+			<div>
+				<label>Select Intro:</label>
+				<select value={introId} onChange={handleIntroChange}>
+					<option value="">None</option>
+					{videos.map((video) => (
+						<option key={video.id} value={video.id}>
+							{video.title}
+						</option>
+					))}
+				</select>
+			</div>
+			<div>
+				<label>Select Outro:</label>
+				<select value={outroId} onChange={handleOutroChange}>
+					<option value="">None</option>
+					{videos.map((video) => (
+						<option key={video.id} value={video.id}>
+							{video.title}
+						</option>
+					))}
+				</select>
+			</div>
 			{videos.map((video) => (
 				<Composition
 					key={video.id}
@@ -33,6 +69,6 @@ export const RemotionRoot = () => {
 					height={1080}
 				/>
 			))}
-		</>
+		</div>
 	);
 };
