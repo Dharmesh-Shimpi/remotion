@@ -35,22 +35,22 @@ export const RemotionRoot = () => {
 	return (
 		<div>
 			<div>
-				<label>Select Intro:</label>
+				<label style={{color: 'white'}}>Select Intro:</label>
 				<select value={introId} onChange={handleIntroChange}>
 					<option value="">None</option>
 					{videos.map((video) => (
-						<option key={video.id} value={video.id}>
+						<option key={video.id} value={video.id} style={{color: 'black'}}>
 							{video.title}
 						</option>
 					))}
 				</select>
 			</div>
 			<div>
-				<label>Select Outro:</label>
+				<label style={{color: 'white'}}>Select Outro:</label>
 				<select value={outroId} onChange={handleOutroChange}>
 					<option value="">None</option>
 					{videos.map((video) => (
-						<option key={video.id} value={video.id}>
+						<option key={video.id} value={video.id} style={{color: 'black'}}>
 							{video.title}
 						</option>
 					))}
