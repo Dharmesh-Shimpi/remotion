@@ -1,6 +1,8 @@
 export const fetchVideos = async () => {
 	try {
-		const response = await fetch('http://localhost:3001/api/fetchVideos');
+		const response = await fetch(
+			'https://canvas-eight-nu.vercel.app/api/fetchVideos',
+		);
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
